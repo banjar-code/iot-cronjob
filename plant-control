@@ -1,0 +1,36 @@
+name: Plant Control
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout kode
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Menggunakan Node.js versi terbaru
+
+    - name: Aktifkan Relay
+      run: |
+        
+        # Mengaktifkan relay
+        curl -X GET "https://sgp1.blynk.cloud/external/api/update?token=AtTx84m_82K-cTCczERQZKFUn9Dc0zYR&v4=1"
+        
+    - name: Tunggu 10 Detik
+      run: |
+
+        # Tambahkan penundaan selama 10 detik
+        sleep 10
+        
+    - name: Matikan Relay
+      run: |
+        # Mematikan relay
+        curl -X GET "https://sgp1.blynk.cloud/external/api/update?token=AtTx84m_82K-cTCczERQZKFUn9Dc0zYR&v4=0"
